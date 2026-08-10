@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behind Desk — Your Business in Front. Our Team Behind It.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141F2B;
+    --paper:#F5F1E8;
+    --brass:#9C7A3C;
+    --brass-light:#C9A868;
+    --slate:#5B6570;
+    --line:#DAD3C2;
+    --panel:#1B2733;
+    --panel-line:rgba(245,241,232,0.14);
+    --tag-bg:rgba(156,122,60,0.14);
+    --font-display:'Fraunces', serif;
+    --font-body:'IBM Plex Sans', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9999;
+    opacity:0.035;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .icon{
+    width:26px; height:26px;
+    stroke:var(--brass);
+    fill:none;
+    stroke-width:1.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .icon-dark{stroke:var(--brass-light);}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- eyebrow / mono labels ---------- */
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:16px; height:1px;
+    background:var(--brass);
+    display:inline-block;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(245,241,232,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 0;
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:0.01em;
+  }
+  .logo span{color:var(--brass);}
+  .nav-links{
+    display:flex; gap:36px; align-items:center;
+    font-size:14px; color:var(--slate);
+  }
+  .nav-links a{transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.04em;
+    background:var(--ink);
+    color:var(--paper);
+    padding:10px 18px;
+    border-radius:2px;
+    transition:background .15s;
+  }
+  .nav-cta:hover{background:var(--brass);}
+  .nav-toggle{display:none;}
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .nav-toggle{display:block; font-family:var(--font-mono); font-size:12px; border:1px solid var(--line); padding:8px 12px; border-radius:2px;}
+  }
+
+  /* ---------- hero: front / behind split ---------- */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr 1px 1fr;
+    min-height:640px;
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr; min-height:auto;}
+  }
+  .hero-divider{
+    background:linear-gradient(180deg, transparent, var(--line) 10%, var(--line) 90%, transparent);
+    position:relative;
+  }
+  @media (max-width:860px){ .hero-divider{display:none;} }
+  .hero-front, .hero-behind{
+    padding:88px 56px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  @media (max-width:860px){
+    .hero-front, .hero-behind{padding:56px 24px;}
+  }
+  .hero-front{background:var(--paper); position:relative; overflow:hidden;}
+  .hero-behind{background:var(--panel); color:var(--paper); position:relative; overflow:hidden;}
+  .hero-map{
+    position:absolute;
+    right:-40px; bottom:-30px;
+    width:260px; height:260px;
+    opacity:0.55;
+    pointer-events:none;
+  }
+  @media (max-width:860px){ .hero-map{display:none;} }
+
+  .hero-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    margin-bottom:22px;
+  }
+  .hero-front .hero-label{color:var(--brass);}
+  .hero-behind .hero-label{color:var(--brass-light);}
+
+  h1.hero-headline{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(30px, 4vw, 42px);
+    line-height:1.12;
+    letter-spacing:-0.01em;
+    margin-bottom:20px;
+  }
+  .hero-front p, .hero-behind p{
+    font-size:15.5px;
+    color:var(--slate);
+    max-width:400px;
+  }
+  .hero-behind p{color:rgba(245,241,232,0.68);}
+
+  .tag-field{
+    margin-top:36px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    max-width:420px;
+  }
+  .tag{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    padding:7px 12px;
+    border:1px solid var(--panel-line);
+    border-radius:2px;
+    color:rgba(245,241,232,0.85);
+    opacity:0;
+    animation:tagIn .5s ease forwards;
+  }
+  @keyframes tagIn{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .tag:nth-child(1){animation-delay:.05s;}
+  .tag:nth-child(2){animation-delay:.15s;}
+  .tag:nth-child(3){animation-delay:.25s;}
+  .tag:nth-child(4){animation-delay:.35s;}
+  .tag:nth-child(5){animation-delay:.45s;}
+  .tag:nth-child(6){animation-delay:.55s;}
+  .tag:nth-child(7){animation-delay:.65s;}
+  .tag:nth-child(8){animation-delay:.75s;}
+
+  .hero-actions{
+    margin-top:40px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:0.03em;
+    padding:13px 22px;
+    border-radius:2px;
+    display:inline-block;
+    transition:all .15s;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--ink); color:var(--paper);}
+  .btn-primary:hover{background:var(--brass);}
+  .btn-ghost{border-color:var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  @media (max-width:860px){
+    .hero-behind{order:2;}
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:96px 0;}
+  @media (max-width:640px){ section{padding:64px 0;} }
+  .section-head{
+    max-width:560px;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(26px, 3vw, 34px);
+    margin-top:16px;
+    letter-spacing:-0.01em;
+  }
+  .section-head p{
+    margin-top:14px;
+    color:var(--slate);
+    font-size:15.5px;
+  }
+
+  /* ---------- services ---------- */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:860px){ .services-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:560px){ .services-grid{grid-template-columns:1fr;} }
+  .service-card{
+    background:var(--paper);
+    padding:34px 28px;
+    transition:background .2s;
+  }
+  .service-card:hover{background:#EFE9DA;}
+  .service-index{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--brass);
+    letter-spacing:0.08em;
+  }
+  .service-card-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+  }
+  .service-card h3{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:19px;
+    margin:14px 0 10px;
+  }
+  .service-card p{
+    font-size:14px;
+    color:var(--slate);
+    margin-bottom:16px;
+  }
+  .service-tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .mini-tag{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    color:var(--brass);
+    background:var(--tag-bg);
+    padding:4px 8px;
+    border-radius:2px;
+  }
+
+  /* ---------- approach ---------- */
+  .approach{background:var(--paper);}
+  .approach-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:700px){ .approach-grid{grid-template-columns:1fr;} }
+  .approach-col{
+    background:var(--paper);
+    padding:40px 36px;
+  }
+  .approach-col h3{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:21px;
+    margin:12px 0 12px;
+  }
+  .approach-col p{
+    font-size:14.5px;
+    color:var(--slate);
+  }
+  .benchmark-strip{
+    margin-top:1px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    background:var(--ink);
+    border:1px solid var(--ink);
+  }
+  @media (max-width:700px){ .benchmark-strip{grid-template-columns:1fr;} }
+  .benchmark-item{
+    padding:28px 30px;
+    border-left:1px solid rgba(245,241,232,0.14);
+    display:flex;
+    flex-direction:column;
+  }
+  .benchmark-item:first-child{border-left:none;}
+  @media (max-width:700px){
+    .benchmark-item{border-left:none; border-top:1px solid rgba(245,241,232,0.14);}
+    .benchmark-item:first-child{border-top:none;}
+  }
+  .benchmark-item .eyebrow{color:var(--brass-light);}
+  .benchmark-item .eyebrow::before{background:var(--brass-light);}
+  .benchmark-text{
+    font-family:var(--font-display);
+    font-weight:500;
+    font-size:16px;
+    color:var(--paper);
+    line-height:1.35;
+  }
+
+  /* ---------- how it works ---------- */
+  .flow{
+    display:flex;
+    flex-direction:column;
+    border-top:1px solid var(--line);
+  }
+  .flow-row{
+    display:grid;
+    grid-template-columns:70px 1fr 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  @media (max-width:700px){
+    .flow-row{grid-template-columns:44px 1fr; }
+    .flow-row .flow-desc{grid-column:2/3;}
+  }
+  .flow-num{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--brass);
+  }
+  .flow-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:18px;
+  }
+  .flow-desc{
+    color:var(--slate);
+    font-size:14.5px;
+  }
+
+  /* ---------- about / model ---------- */
+  .about{
+    background:var(--panel);
+    color:var(--paper);
+  }
+  .about .section-head p{color:rgba(245,241,232,0.65);}
+  .about .eyebrow{color:var(--brass-light);}
+  .about .eyebrow::before{background:var(--brass-light);}
+  .division-strip{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    border:1px solid var(--panel-line);
+    margin-bottom:1px;
+  }
+  @media (max-width:700px){ .division-strip{grid-template-columns:repeat(2, 1fr);} }
+  .division{
+    padding:26px 24px;
+    border-left:1px solid var(--panel-line);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .division:first-child{border-left:none;}
+  @media (max-width:700px){
+    .division:nth-child(2n+1){border-left:none;}
+    .division:nth-child(n+3){border-top:1px solid var(--panel-line);}
+  }
+  .division-word{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:20px;
+    color:var(--brass-light);
+  }
+  .division-sub{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.55);
+  }
+
+  .model-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--panel-line);
+    border:1px solid var(--panel-line);
+    border-top:none;
+  }
+  @media (max-width:700px){ .model-grid{grid-template-columns:1fr;} }
+  .model-col{
+    background:var(--panel);
+    padding:36px 32px;
+  }
+  .model-col .eyebrow{margin-bottom:16px;}
+  .model-col h3{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:22px;
+    margin-bottom:20px;
+  }
+  .chip-cloud{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    padding:7px 12px;
+    border:1px solid var(--panel-line);
+    border-radius:2px;
+    color:rgba(245,241,232,0.85);
+    background:rgba(245,241,232,0.03);
+  }
+
+  /* ---------- proof strip ---------- */
+  .proof{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:700px){ .proof{grid-template-columns:repeat(2,1fr);} }
+  .proof-item{
+    padding:34px 28px;
+    border-left:1px solid var(--line);
+  }
+  .proof-item:first-child{border-left:none;}
+  @media (max-width:700px){
+    .proof-item:nth-child(2n+1){border-left:none;}
+    .proof-item:nth-child(n+3){border-top:1px solid var(--line);}
+  }
+  .proof-num{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:30px;
+    color:var(--brass);
+  }
+  .proof-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--slate);
+    margin-top:8px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+
+  /* ---------- contact ---------- */
+  .contact-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+  }
+  @media (max-width:860px){ .contact-wrap{grid-template-columns:1fr; gap:40px;} }
+  .contact-info h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(26px,3vw,34px);
+    margin:16px 0 18px;
+  }
+  .contact-info p{color:var(--slate); font-size:15px; max-width:400px;}
+  .contact-detail{margin-top:32px;}
+  .contact-detail div{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--ink);
+    padding:12px 0;
+    border-top:1px solid var(--line);
+  }
+  .contact-detail div:first-child{border-top:none;}
+  .contact-detail span{color:var(--slate); display:inline-block; width:110px;}
+
+  form{display:flex; flex-direction:column; gap:16px;}
+  .field label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--slate);
+    display:block;
+    margin-bottom:8px;
+  }
+  .field input, .field textarea, .field select{
+    width:100%;
+    background:transparent;
+    border:1px solid var(--line);
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:14px;
+    color:var(--ink);
+    border-radius:2px;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{
+    outline:2px solid var(--brass);
+    outline-offset:1px;
+    border-color:var(--brass);
+  }
+  .field textarea{resize:vertical; min-height:90px;}
+  .form-note{font-size:12px; color:var(--slate); margin-top:2px;}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 0;
+  }
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  .footer-row .logo{font-size:16px;}
+  .footer-links{display:flex; gap:24px; font-size:13px; color:var(--slate);}
+  .footer-fine{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--slate);
+    margin-top:20px;
+  }
+
+  ::selection{background:var(--brass); color:var(--paper);}
+
+  @media (prefers-reduced-motion: reduce){
+    .tag{animation:none; opacity:1;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">BEHIND<span>DESK</span></div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#approach">Approach</a>
+      <a href="#how">How it works</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Book a discovery call</a>
+  </nav>
+</header>
+
+<section class="hero" style="padding:0;">
+  <div class="hero-front">
+    <div class="hero-label">Your business</div>
+    <h1 class="hero-headline">Run the front of your business without carrying all of it yourself.</h1>
+    <p>Behind Desk is a global remote agency built for growing businesses that need more capacity in marketing, customer support, and day‑to‑day operations — without the overhead of a full internal team.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">Book a discovery call</a>
+      <a href="#services" class="btn btn-ghost">See what we cover</a>
+    </div>
+    <svg class="hero-map" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="90" r="3.5" fill="#9C7A3C"/>
+      <circle cx="205" cy="165" r="3.5" fill="#9C7A3C"/>
+      <path d="M60,90 Q135,20 205,165" fill="none" stroke="#9C7A3C" stroke-width="1.2" stroke-dasharray="2 6" stroke-linecap="round"/>
+      <text x="66" y="86" font-family="IBM Plex Mono" font-size="9" fill="#5B6570">US</text>
+      <text x="211" y="161" font-family="IBM Plex Mono" font-size="9" fill="#5B6570">PH</text>
+      <circle cx="130" cy="130" r="118" fill="none" stroke="#DAD3C2" stroke-width="1"/>
+      <circle cx="130" cy="130" r="88" fill="none" stroke="#DAD3C2" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="hero-divider"></div>
+  <div class="hero-behind">
+    <div class="hero-label">Our team, behind it</div>
+    <h1 class="hero-headline" style="font-size:clamp(24px,3vw,30px);">A dedicated remote team running the systems that keep your business moving.</h1>
+    <p>Marketing execution, live customer support, virtual assistance, and operations — staffed, managed, and quality‑checked so you don't have to.</p>
+    <div class="tag-field">
+      <span class="tag">Social media management</span>
+      <span class="tag">Inbox &amp; ticket support</span>
+      <span class="tag">Calendar &amp; scheduling</span>
+      <span class="tag">Lead follow‑up</span>
+      <span class="tag">CRM &amp; data entry</span>
+      <span class="tag">Live chat coverage</span>
+      <span class="tag">Content calendars</span>
+      <span class="tag">Reporting</span>
+    </div>
+    <svg class="hero-map" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25;">
+      <circle cx="60" cy="90" r="3.5" fill="#C9A868"/>
+      <circle cx="205" cy="165" r="3.5" fill="#C9A868"/>
+      <path d="M60,90 Q135,20 205,165" fill="none" stroke="#C9A868" stroke-width="1.2" stroke-dasharray="2 6" stroke-linecap="round"/>
+      <circle cx="130" cy="130" r="118" fill="none" stroke="rgba(245,241,232,0.25)" stroke-width="1"/>
+      <circle cx="130" cy="130" r="88" fill="none" stroke="rgba(245,241,232,0.25)" stroke-width="1"/>
+    </svg>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What we cover</div>
+      <h2>Ways we take work off your plate</h2>
+      <p>You pick where you need help. We build the team around it — and expand only as your business does.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-card-top">
+          <div class="service-index">01</div>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg>
+        </div>
+        <h3>Marketing</h3>
+        <p>Consistent execution across the channels that actually bring in business — planned, published, and reported on every month.</p>
+        <div class="service-tags">
+          <span class="mini-tag">Social media</span>
+          <span class="mini-tag">Content calendars</span>
+          <span class="mini-tag">Copywriting</span>
+          <span class="mini-tag">Email</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-top">
+          <div class="service-index">02</div>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13v4a2 2 0 0 0 2 2h1v-6H4z"/><path d="M20 13v4a2 2 0 0 1-2 2h-1v-6h3z"/><path d="M9 19a2 2 0 0 0 4 0"/></svg>
+        </div>
+        <h3>Customer Support</h3>
+        <p>Real people answering inbox, chat, ticket, and phone volume during the hours your customers actually reach out.</p>
+        <div class="service-tags">
+          <span class="mini-tag">Email support</span>
+          <span class="mini-tag">Live chat</span>
+          <span class="mini-tag">Ticketing</span>
+          <span class="mini-tag">Call center</span>
+          <span class="mini-tag">FAQs &amp; macros</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-top">
+          <div class="service-index">03</div>
+          <svg class="icon" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="1.5"/><path d="M9 3.5h6a1 1 0 0 1 1 1V6H8V4.5a1 1 0 0 1 1-1z"/><path d="M9 10h6M9 13h6M9 16h3"/></svg>
+        </div>
+        <h3>Virtual Assistance</h3>
+        <p>A dedicated remote assistant handling scheduling, research, inbox triage, and the recurring admin that eats up your week — including specialized healthcare VA support.</p>
+        <div class="service-tags">
+          <span class="mini-tag">Scheduling</span>
+          <span class="mini-tag">Research</span>
+          <span class="mini-tag">Data entry</span>
+          <span class="mini-tag">Healthcare VA</span>
+          <span class="mini-tag">Travel &amp; ops</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-top">
+          <div class="service-index">04</div>
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M21 12h-2.5M5.5 12H3M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4 5.6 5.6"/></svg>
+        </div>
+        <h3>Operations &amp; CRM</h3>
+        <p>The systems layer underneath everything else — CRM upkeep, reporting, and workflows that keep your pipeline honest.</p>
+        <div class="service-tags">
+          <span class="mini-tag">CRM management</span>
+          <span class="mini-tag">Lead follow-up</span>
+          <span class="mini-tag">Reporting</span>
+          <span class="mini-tag">SOPs</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-top">
+          <div class="service-index">05</div>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        </div>
+        <h3>AI &amp; Automation</h3>
+        <p>Practical automation for the repetitive parts of support and marketing — set up, monitored, and refined by our team.</p>
+        <div class="service-tags">
+          <span class="mini-tag">Workflow automation</span>
+          <span class="mini-tag">AI-assisted replies</span>
+          <span class="mini-tag">Reporting tools</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-top">
+          <div class="service-index">06</div>
+          <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5 21 8v8l-4-2.5"/><circle cx="10" cy="12.5" r="2.5"/></svg>
+        </div>
+        <h3>Media &amp; Content</h3>
+        <p>Photo, video, and editing support available as an add-on for businesses that also need production help.</p>
+        <div class="service-tags">
+          <span class="mini-tag">Photo &amp; video</span>
+          <span class="mini-tag">Editing</span>
+          <span class="mini-tag">Add-on service</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="approach" class="approach">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How we work</div>
+      <h2>Growth you can actually measure</h2>
+      <p>Before we spend an hour of your budget, we define what winning looks like for your business — and exactly how we'll track it. No vanity metrics, no guesswork.</p>
+    </div>
+
+    <div class="approach-grid">
+      <div class="approach-col">
+        <svg class="icon" viewBox="0 0 24 24" style="width:28px;height:28px;"><path d="M3 20h18"/><path d="M6 20v-6M11 20V9M16 20v-11"/><path d="M4 13l5-5 4 3 6-7"/></svg>
+        <div class="eyebrow" style="margin-top:16px;">Not one lane</div>
+        <h3>A hybrid, built on purpose</h3>
+        <p>We're not just a marketing shop, a support desk, or a back-office team — we're all three, working as one system. Two teams, one desk: your front end stays sharp while everything behind it — content, support, operations — runs in sync.</p>
+      </div>
+      <div class="approach-col">
+        <svg class="icon" viewBox="0 0 24 24" style="width:28px;height:28px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+        <div class="eyebrow" style="margin-top:16px;">Results focused</div>
+        <h3>Every dollar and every minute, accounted for</h3>
+        <p>We watch performance in real time and adjust fast — creative, staffing, workflows, whatever the data calls for. If something isn't moving the number that matters to you, it doesn't get to become a habit.</p>
+      </div>
+    </div>
+
+    <div class="benchmark-strip">
+      <div class="benchmark-item">
+        <span class="eyebrow" style="margin-bottom:8px;">Step 1</span>
+        <div class="benchmark-text">Define what success means for your business</div>
+      </div>
+      <div class="benchmark-item">
+        <span class="eyebrow" style="margin-bottom:8px;">Step 2</span>
+        <div class="benchmark-text">Set clear benchmarks before a dollar is spent</div>
+      </div>
+      <div class="benchmark-item">
+        <span class="eyebrow" style="margin-bottom:8px;">Step 3</span>
+        <div class="benchmark-text">Track constantly, optimize without waiting</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:#EFE9DA; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Process</div>
+      <h2>How an engagement actually starts</h2>
+      <p>No 30-service menu to sort through first. We start narrow, prove the fit, then grow with you.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-num">01</div>
+        <div class="flow-title">Discovery call</div>
+        <div class="flow-desc">We learn where the gap actually is — support tickets piling up, marketing going stale, or admin eating your week.</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">02</div>
+        <div class="flow-title">Scoped proposal</div>
+        <div class="flow-desc">A clear scope, monthly rate, and the specific tasks your remote team will own — no vague retainers.</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">03</div>
+        <div class="flow-title">Team assigned &amp; onboarded</div>
+        <div class="flow-desc">Your dedicated specialists are matched, trained on your business, and set up inside your existing tools.</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">04</div>
+        <div class="flow-title">Delivery &amp; reporting</div>
+        <div class="flow-desc">Work ships on a set cadence with quality checks and reporting, so you always know what's getting done.</div>
+      </div>
+      <div class="flow-row" style="border-bottom:none;">
+        <div class="flow-num">05</div>
+        <div class="flow-title">Grow as needed</div>
+        <div class="flow-desc">Add support hours, more marketing capacity, or a second assistant as your business needs more.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How we're built</div>
+      <h2>One team, two sides of the desk</h2>
+      <p>A US-based front end that understands your market, paired with a Philippines-based delivery team that executes daily — managed as one operation.</p>
+    </div>
+
+    <div class="division-strip">
+      <div class="division">
+        <svg class="icon icon-dark" viewBox="0 0 24 24" style="width:20px;height:20px;"><rect x="3" y="7" width="14" height="11" rx="1.5"/><path d="M17 10.5 21 8v8l-4-2.5"/><circle cx="10" cy="12.5" r="2.5"/></svg>
+        <span class="division-word">Create</span>
+        <span class="division-sub">Media &amp; production</span>
+      </div>
+      <div class="division">
+        <svg class="icon icon-dark" viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 8.5a4 4 0 0 1 0 7"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12"/></svg>
+        <span class="division-word">Grow</span>
+        <span class="division-sub">Marketing</span>
+      </div>
+      <div class="division">
+        <svg class="icon icon-dark" viewBox="0 0 24 24" style="width:20px;height:20px;"><rect x="6" y="4" width="12" height="16" rx="1.5"/><path d="M9 3.5h6a1 1 0 0 1 1 1V6H8V4.5a1 1 0 0 1 1-1z"/><path d="M9 10h6M9 13h6M9 16h3"/></svg>
+        <span class="division-word">Operate</span>
+        <span class="division-sub">Support &amp; admin</span>
+      </div>
+      <div class="division">
+        <svg class="icon icon-dark" viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        <span class="division-word">Automate</span>
+        <span class="division-sub">AI &amp; systems</span>
+      </div>
+    </div>
+
+    <div class="model-grid">
+      <div class="model-col">
+        <div class="eyebrow">Front end</div>
+        <h3>US Team</h3>
+        <div class="chip-cloud">
+          <span class="chip">Business Development</span>
+          <span class="chip">Sales</span>
+          <span class="chip">Networking</span>
+          <span class="chip">Client Relationships</span>
+          <span class="chip">Drone</span>
+          <span class="chip">Photography</span>
+          <span class="chip">Videography</span>
+          <span class="chip">Local Production</span>
+          <span class="chip">Partnerships</span>
+        </div>
+      </div>
+      <div class="model-col">
+        <div class="eyebrow">Delivery engine</div>
+        <h3>Philippines Team</h3>
+        <div class="chip-cloud">
+          <span class="chip">Operations</span>
+          <span class="chip">Video Editing</span>
+          <span class="chip">Marketing</span>
+          <span class="chip">Social Media</span>
+          <span class="chip">Administration</span>
+          <span class="chip">Remote Support</span>
+          <span class="chip">Healthcare VA</span>
+          <span class="chip">Call Center</span>
+          <span class="chip">AI</span>
+          <span class="chip">Automation</span>
+          <span class="chip">Quality Control</span>
+          <span class="chip">Talent Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof" style="padding:0;">
+  <div class="proof-item">
+    <div class="proof-num">2</div>
+    <div class="proof-label">Core teams, one system</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">4+</div>
+    <div class="proof-label">Service lines covered</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">1</div>
+    <div class="proof-label">Dedicated point of contact</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">100%</div>
+    <div class="proof-label">Remote, no office overhead</div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-wrap">
+    <div class="contact-info">
+      <div class="eyebrow">Get started</div>
+      <h2>Tell us where the gap is</h2>
+      <p>Book a short discovery call, or send a few details below and we'll follow up with a scoped proposal — no obligation.</p>
+      <div class="contact-detail">
+        <div><span>Email</span>hello@behinddesk.co</div>
+        <div><span>Response time</span>Within 1 business day</div>
+        <div><span>Based in</span>United States &amp; Philippines</div>
+      </div>
+    </div>
+    <form onsubmit="event.preventDefault(); this.querySelector('.form-note').textContent='Thanks — we\'ll be in touch within 1 business day.';">
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="Jane Rivera" required>
+      </div>
+      <div class="field">
+        <label for="company">Company</label>
+        <input id="company" type="text" placeholder="Your business name">
+      </div>
+      <div class="field">
+        <label for="need">Where do you need help?</label>
+        <select id="need">
+          <option>Marketing</option>
+          <option>Customer support</option>
+          <option>Virtual assistance</option>
+          <option>Operations &amp; CRM</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="details">A bit more detail</label>
+        <textarea id="details" placeholder="What's taking up too much of your time right now?"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="border:none; cursor:pointer;">Send &amp; request proposal</button>
+      <div class="form-note">We'll follow up within 1 business day.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="logo">BEHIND<span>DESK</span></div>
+      <div class="footer-links">
+        <a href="#services">Services</a>
+        <a href="#how">How it works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-fine">© 2026 Behind Desk. Your business in front. Our team behind it.</div>
+  </div>
+</footer>
+
+</body>
+</html>
