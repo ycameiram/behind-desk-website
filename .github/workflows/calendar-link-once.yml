@@ -1,0 +1,46 @@
+name: Add Discovery Call Link
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-calendar-link:
+    if: contains(github.event.head_commit.message, 'Add calendar booking')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+
+      - name: Update booking links
+        env:
+          CALENDAR_URL: https://calendar.google.com/calendar/u/0/r/appointment/3b6neblcfl6oc4s5bajv1026h3_bWFyaWVjYWJhbGxlcm9AYmVoaW5kZGVza2dsb2JhbC5jb20
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          url = os.environ['CALENDAR_URL']
+          s = s.replace('<a class="book" href="#contact">Book a Call</a>', f'<a class="book" href="{url}" target="_blank" rel="noopener">Book a Call</a>')
+          s = s.replace('<a class="btn primary" href="#contact">Book a 30-Minute Discovery Call</a>', f'<a class="btn primary" href="{url}" target="_blank" rel="noopener">Book a 30-Minute Discovery Call</a>')
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Connect 30-minute discovery call calendar" || exit 0
+          git push
+
+      - name: Remove one-time workflow
+        if: success()
+        run: |
+          git rm .github/workflows/calendar-link-once.yml
+          git commit -m "Remove one-time calendar workflow"
+          git push
