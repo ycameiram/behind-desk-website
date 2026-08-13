@@ -1,0 +1,48 @@
+name: Add BehindDesk phone number
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-phone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add phone number
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          phone = '(949) 259-4240'
+          if phone not in s:
+              old = '<div><strong>Founder & Managing Director</strong><a href="mailto:mariecaballero@behinddeskglobal.com">mariecaballero@behinddeskglobal.com</a></div>'
+              new = old + '<div><strong>Phone</strong><a href="tel:+19492594240">(949) 259-4240</a></div>'
+              if old not in s:
+                  raise SystemExit('Contact block not found; no changes made.')
+              s = s.replace(old, new, 1)
+              old_footer = '<div>✉ mariecaballero@behinddeskglobal.com</div>'
+              new_footer = old_footer + '<div>☎ (949) 259-4240</div>'
+              if old_footer in s:
+                  s = s.replace(old_footer, new_footer, 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit website update and remove temporary workflow
+        run: |
+          git config user.name 'BehindDesk Global'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/add-phone-number.yml
+          if git diff --cached --quiet; then
+            echo 'No changes needed.'
+          else
+            git commit -m 'Add BehindDesk Global phone number'
+            git push
+          fi
