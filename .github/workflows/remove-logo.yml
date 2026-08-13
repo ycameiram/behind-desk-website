@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Remove logo elements
+      - name: Apply website refinements
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -19,13 +19,16 @@ jobs:
           s = s.replace('<img src="assets/behinddesk-logo.svg" alt="BehindDesk Global logo">','')
           s = s.replace('<img class="hero-logo" src="assets/behinddesk-logo.svg" alt="BehindDesk Global logo">','')
           s = s.replace('<div class="hero-art"><div class="goldbar"></div></div>','')
-          s = s.replace('<div class="hero-art"><div class="goldbar"></div></div>','')
           s = s.replace('<div class="brand"><img src="assets/behinddesk-logo.svg" alt="BehindDesk Global logo"><span>BehindDesk Global</span></div>','<div class="brand"><span>BehindDesk Global</span></div>')
           s = s.replace('.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700}.brand img{width:42px;height:38px;object-fit:contain}', '.brand{font-size:20px;font-weight:700}')
           s = s.replace('.hero{background:var(--p);display:grid;grid-template-columns:1.05fr .95fr;min-height:650px}', '.hero{background:var(--p);min-height:650px}')
           s = s.replace('.hero-copy{padding:80px max(28px,calc((100vw - 1180px)/2));padding-right:45px;display:flex;flex-direction:column;justify-content:center}', '.hero-copy{max-width:1180px;margin:auto;padding:100px 28px;display:flex;flex-direction:column;justify-content:center}')
           s = s.replace('.hero-art{display:flex;align-items:center;justify-content:center;padding:45px;background:linear-gradient(145deg,#eef0ee,#fff);position:relative}.hero-logo{width:min(420px,82%)}.goldbar{position:absolute;left:0;right:0;bottom:0;height:8px;background:var(--g)}', '')
           s = s.replace('.hero-copy{padding:65px 28px}.hero-art{min-height:420px}', '.hero-copy{padding:80px 28px}')
+          s = s.replace('<strong>what truly matters: growing your business.</strong>', '<strong style="color:#050505">what truly matters: <span style="color:#050505">growing your business.</span></strong>')
+          if 'Highly-Skilled &amp; Experienced Remote Partners' not in s and 'Highly-Skilled & Experienced Remote Partners' not in s:
+              s = s.replace('</div></section><section id="who">', '<div class="hero-partner">Highly-Skilled &amp; Experienced Remote Partners</div></div></section><section id="who">', 1)
+          s = s.replace('.hero p{font-size:17px;color:#43505d;max-width:620px;margin:24px 0}', '.hero p{font-size:17px;color:#43505d;max-width:620px;margin:24px 0}.hero-partner{display:inline-block;margin-top:8px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0b1f33}')
           p.write_text(s)
           PY
       - name: Commit changes
@@ -33,5 +36,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Remove BehindDesk logo from website'
+          git diff --cached --quiet || git commit -m 'Refine growth emphasis and remote partner messaging'
           git push
