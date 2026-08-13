@@ -34,14 +34,13 @@ jobs:
               p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Commit website update and remove temporary workflow
+      - name: Commit website update
         run: |
           git config user.name 'BehindDesk Global'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git rm .github/workflows/add-phone-number.yml
           if git diff --cached --quiet; then
-            echo 'No changes needed.'
+            echo 'Phone number already present; no changes needed.'
           else
             git commit -m 'Add BehindDesk Global phone number'
             git push
