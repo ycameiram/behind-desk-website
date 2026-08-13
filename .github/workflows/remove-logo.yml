@@ -36,6 +36,16 @@ jobs:
           if 'Highly-Skilled &amp; Experienced Remote Partners' not in s and 'Highly-Skilled & Experienced Remote Partners' not in s:
               s = s.replace('</div></section><section id="who">', '<div class="hero-partner">Highly-Skilled &amp; Experienced Remote Partners</div></div></section><section id="who">', 1)
           s = s.replace('.hero p{font-size:17px;color:#43505d;max-width:620px;margin:24px 0}', '.hero p{font-size:17px;color:#43505d;max-width:620px;margin:24px 0}.hero-partner{display:inline-block;margin-top:8px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0b1f33}')
+          phone = '(949) 259-4240'
+          if phone not in s:
+              old = '<div><strong>Founder & Managing Director</strong><a href="mailto:mariecaballero@behinddeskglobal.com">mariecaballero@behinddeskglobal.com</a></div>'
+              new = old + '<div><strong>Phone</strong><a href="tel:+19492594240">(949) 259-4240</a></div>'
+              if old in s:
+                  s = s.replace(old, new, 1)
+              old_footer = '<div>✉ mariecaballero@behinddeskglobal.com</div>'
+              new_footer = old_footer + '<div>☎ (949) 259-4240</div>'
+              if old_footer in s:
+                  s = s.replace(old_footer, new_footer, 1)
           p.write_text(s)
           PY
       - name: Commit changes
@@ -43,5 +53,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Set Philippines as company base'
+          git diff --cached --quiet || git commit -m 'Update BehindDesk website contact details'
           git push
