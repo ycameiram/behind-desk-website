@@ -68,12 +68,9 @@ footer{border-top:1px solid var(--line);padding:35px 0}.foot{display:flex;justif
       <h2 id="guideTitle">Thinking about hiring in the <span>Philippines?</span> Read this first.</h2>
       <p class="guide-lead">The BehindDesk Global Guide to Hiring &amp; Managing Filipino Talent — practical, straightforward and built for businesses around the world.</p>
       <p class="guide-body">From choosing the right role and hiring model to payroll, compliance, remote management and working across time zones — this guide covers the questions businesses should ask before building a Filipino team.</p>
-      <form class="guide-form" onsubmit="submitGuide(event)">
-        <input id="guideEmail" type="email" placeholder="Your work email" aria-label="Your work email" required>
-        <button type="submit">Send me the guide →</button>
-      </form>
-      <div class="guide-success" id="guideSuccess">Thanks — your request has been noted. Our team will follow up with the guide.</div>
-      <div class="guide-fine">No spam. Just the guide and occasional practical insights from BehindDesk Global.</div>
+      <div class="guide-form"><button type="button" onclick="closeGuide()">Read the guide →</button></div>
+      
+      <div class="guide-fine">A practical guide for businesses building and managing teams in the Philippines.</div>
       <div class="guide-trust">
         <div><span class="guide-icon">✓</span><span>Practical hiring &amp; onboarding insights</span></div>
         <div><span class="guide-icon">✓</span><span>For Australian, US &amp; global businesses</span></div>
@@ -99,7 +96,7 @@ footer{border-top:1px solid var(--line);padding:35px 0}.foot{display:flex;justif
   </div>
 </div>
 <script>
-function openGuide(){const p=document.getElementById('guidePopup');if(p){p.classList.add('show');p.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}} function closeGuide(){const p=document.getElementById('guidePopup');if(p){p.classList.remove('show');p.setAttribute('aria-hidden','true');document.body.style.overflow='';sessionStorage.setItem('guidePopupClosed','1');}} function submitGuide(e){e.preventDefault();const email=document.getElementById('guideEmail').value;const s=document.getElementById('guideSuccess');if(s){s.style.display='block';} window.location.href='mailto:hello@behinddeskglobal.com?subject=Free%20Hiring%20Guide%20Request&body=Please%20send%20me%20the%20BehindDesk%20Global%20guide.%20My%20work%20email%20is%20'+encodeURIComponent(email);sessionStorage.setItem('guidePopupClosed','1');} document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGuide();});document.addEventListener('click',e=>{const p=document.getElementById('guidePopup');if(p&&e.target===p)closeGuide();});window.addEventListener('load',()=>{if(!sessionStorage.getItem('guidePopupClosed'))setTimeout(openGuide,8000);});
+function openGuide(){const p=document.getElementById('guidePopup');if(p){p.classList.add('show');p.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}} function closeGuide(){const p=document.getElementById('guidePopup');if(p){p.classList.remove('show');p.setAttribute('aria-hidden','true');document.body.style.overflow='';sessionStorage.setItem('guidePopupClosed','1');}}  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGuide();});document.addEventListener('click',e=>{const p=document.getElementById('guidePopup');if(p&&e.target===p)closeGuide();});window.addEventListener('load',()=>{if(!sessionStorage.getItem('guidePopupClosed'))setTimeout(openGuide,8000);});
 let calcPeriod='monthly';
 function money(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n||0);}
 function setPeriod(period){calcPeriod=period;document.getElementById('monthlyBtn').classList.toggle('active',period==='monthly');document.getElementById('annualBtn').classList.toggle('active',period==='annual');calc();}
